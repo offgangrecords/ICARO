@@ -7,8 +7,8 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseServiceKey) {
-  console.error('❌ SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY são obrigatórios no .env');
-  process.exit(1);
+  console.warn('⚠️ ATENÇÃO: SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY não configurados nas variáveis de ambiente!');
+  console.warn('O sistema pode não funcionar corretamente até que essas variáveis sejam adicionadas.');
 }
 
 // Cliente admin (service role) — bypassa RLS, usar apenas no backend
