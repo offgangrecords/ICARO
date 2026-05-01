@@ -2,7 +2,6 @@ import express from 'express';
 import { supabaseAdmin } from '../database/supabase.js';
 import { authMiddleware } from '../middleware/auth.js';
 import { gerarCSV, gerarExcel } from '../services/exportacao.js';
-import { gerarCSV, gerarExcel } from '../services/exportacao.js';
 
 const router = express.Router();
 
