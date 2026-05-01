@@ -111,13 +111,13 @@ function ModalDetalhes({ aberto, onClose, titulo, filtro }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-navy-950/90 backdrop-blur-md"
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
           />
           <motion.div 
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
-            className="relative w-full max-w-5xl max-h-[85vh] bg-navy-900 border border-white/10 rounded-3xl shadow-2xl flex flex-col overflow-hidden"
+            className="relative w-full max-w-5xl max-h-[85vh] bg-[#1a2332]/95 backdrop-blur-xl border border-white/20 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden"
           >
             <div className="p-6 border-b border-white/5 flex items-center justify-between">
               <div>
@@ -147,7 +147,7 @@ function ModalDetalhes({ aberto, onClose, titulo, filtro }) {
                 </div>
               ) : (
                 leads.map(lead => (
-                  <div key={lead.id} className="p-4 bg-white/[0.02] border border-white/5 rounded-2xl hover:bg-white/[0.04] transition-all group">
+                  <div key={lead.id} className="p-4 bg-white/5 border border-white/10 rounded-2xl shadow-sm hover:bg-white/10 hover:shadow-md transition-all group">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                       <div className="space-y-1">
                         <h3 className="font-bold text-white text-lg group-hover:text-primary-400 transition-colors">{lead.nome}</h3>
@@ -163,7 +163,7 @@ function ModalDetalhes({ aberto, onClose, titulo, filtro }) {
                         <select 
                           value={lead.status}
                           onChange={(e) => atualizarStatus(lead.id, e.target.value)}
-                          className="bg-navy-950 border border-white/10 rounded-xl px-3 py-2 text-xs font-bold text-white focus:outline-none focus:border-primary-500/50"
+                          className="bg-black/20 border border-white/20 rounded-xl px-3 py-2 text-xs font-bold text-white focus:outline-none focus:border-primary-500/50 focus:ring-2 focus:ring-primary-500/20 backdrop-blur-sm transition-all"
                         >
                           {Object.entries(STATUS_CONFIG).map(([val, { label }]) => (
                             <option key={val} value={val}>{label}</option>

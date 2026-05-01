@@ -60,6 +60,35 @@ router.get('/', authMiddleware, async (req, res) => {
     const contatosRealizados = (porStatus || []).filter(l => l.status !== 'Novo').length;
     const totalLeadsSalvos = (porStatus || []).length;
 
+    const regioesMapeamento = {
+      'AC': 'Norte', 'AM': 'Norte', 'AP': 'Norte', 'PA': 'Norte', 'RO': 'Norte', 'RR': 'Norte', 'TO': 'Norte',
+      'AL': 'Nordeste', 'BA': 'Nordeste', 'CE': 'Nordeste', 'MA': 'Nordeste', 'PB': 'Nordeste', 'PE': 'Nordeste', 'PI': 'Nordeste', 'RN': 'Nordeste', 'SE': 'Nordeste',
+      'DF': 'Centro-Oeste', 'GO': 'Centro-Oeste', 'MT': 'Centro-Oeste', 'MS': 'Centro-Oeste',
+      'ES': 'Sudeste', 'MG': 'Sudeste', 'RJ': 'Sudeste', 'SP': 'Sudeste',
+      'PR': 'Sul', 'RS': 'Sul', 'SC': 'Sul'
+    };
+
+    const regioesAgrupadas = {
+      'Norte': { nome: 'Norte', salvos: 0, total: 150 },
+      'Nordeste': { nome: 'Nordeste', salvos: 0, total: 300 },
+      'Centro-Oeste': { nome: 'Centro-Oeste', salvos: 0, total: 200 },
+      'Sudeste': { nome: 'Sudeste', salvos: 0, total: 800 },
+      'Sul': { nome: 'Sul', salvos: 0, total: 400 },
+    };
+
+    (porStatus || []).forEach(lead => {
+      const uf = lead.cidade ? lead.cidade.split(',')[1]?.trim() : null;
+      const regiao = uf ? regioesMapeamento[uf] : null;
+      if (regiao) {
+        regioesAgrupadas[regiao].salvos += 1;
+      }
+    });
+
+    const progressoRegioes = Object.values(regioesAgrupadas).map(r => ({
+      ...r,
+      percentual: r.total > 0 ? Math.min(100, Math.round((r.salvos / r.total) * 100)) : 0
+    })).sort((a, b) => b.salvos - a.salvos);
+
     return res.json({
       totalLeads: totalLeadsSalvos,
       totalPotential: totalLeadsSalvos,
@@ -67,7 +96,7 @@ router.get('/', authMiddleware, async (req, res) => {
       pendentes: totalLeadsSalvos - contatosRealizados,
       porStatus: statusMap,
       progressoCidades: progressoCidades.sort((a, b) => b.salvos - a.salvos),
-      progressoRegioes: analiseCategorias, // Usando este campo para as categorias na UI
+      progressoRegioes: progressoRegioes,
       leadsNoMapa: [],
     });
   } catch (err) {
