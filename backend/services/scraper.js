@@ -1,11 +1,19 @@
 import puppeteer from 'puppeteer';
 import axios from 'axios';
+import fs from 'fs';
 
 export async function scrapeGoogleMaps({ cidade, tipo, queryGoogle, maxResultados, ignorarNomes = [], ignorarIds = [] }) {
   console.log(`🚀 Iniciando Scraping Gratuito para: ${tipo} em ${cidade}`);
   
+  let execPath = process.env.PUPPETEER_EXECUTABLE_PATH;
+  if (execPath && !fs.existsSync(execPath)) {
+    console.warn(`[Aviso] Executável configurado em ${execPath} não encontrado. Usando o padrão do Puppeteer.`);
+    execPath = undefined;
+  }
+
   const browser = await puppeteer.launch({
     headless: "new",
+    executablePath: execPath || puppeteer.executablePath(),
     args: [
       "--no-sandbox", 
       "--disable-setuid-sandbox",

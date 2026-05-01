@@ -19,8 +19,7 @@ COPY . .
 EXPOSE 3001
 
 # Variável de ambiente para o Puppeteer rodar em modo headless no Docker
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
 # Comando para rodar a aplicação
 CMD ["node", "index.js"]
